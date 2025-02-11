@@ -36,4 +36,53 @@ def init_database() -> None:
     """)
 
     # Create 'transactions' table:
-    raise NotImplementedError("This function wasn't finalized")
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS transactions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            amount REAL NOT NULL,
+            month INTEGER NOT NULL,
+            year INTEGER NOT NULL,
+            type_id INTEGER NOT NULL,
+            shared_with TEXT,
+            is_income BOOL NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users(id),
+            FOREIGN KEY (type_id) REFERENCES expenses_type(id)
+        )
+    """)
+
+    # Create 'debts' table:
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS debts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            debtor_id INTEGER NOT NULL,
+            creditor_id INTEGER NOT NULL,
+            amount REAL NOT NULL,
+            FOREIGN KEY (debtor_id) REFERENCES users(id),
+            FOREIGN KEY (creditor_id) REFERENCES users(id)
+        )
+    """)
+
+    # Insert default expenses types (if not existing already):
+    default_expense_types = [
+        "groceries",
+        "healthcare",
+        "taxes",
+        "restaurants",
+        "shopping",
+    ]
+    for expense_type in default_expense_types:
+        cursor.execute(
+            "INSERT OR IGNORE INTO expenses_types (type_name) VALUES (?)",
+            (expense_type,),
+        )
+
+    db.commit()
+    db.close()
+
+
+def clear_all_data() -> None:
+    """Clearing all the data from the database."""
+    if DB_FILE_PATH.exists():
+        os.remove(DB_FILE_PATH)
+    init_database()
