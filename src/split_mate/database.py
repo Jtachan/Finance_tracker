@@ -73,7 +73,7 @@ def init_database() -> None:
     ]
     for expense_type in default_expense_types:
         cursor.execute(
-            "INSERT OR IGNORE INTO expenses_types (type_name) VALUES (?)",
+            "INSERT OR IGNORE INTO expense_types (type_name) VALUES (?)",
             (expense_type,),
         )
 
@@ -82,7 +82,13 @@ def init_database() -> None:
 
 
 def clear_all_data() -> None:
-    """Clearing all the data from the database."""
+    """Deleting the database file and reinitializing it with empty tables."""
     if DB_FILE_PATH.exists():
         os.remove(DB_FILE_PATH)
     init_database()
+
+
+if __name__ == '__main__':
+    print("Initializing database...")
+    init_database()
+    print("Database initialized successfully.")
