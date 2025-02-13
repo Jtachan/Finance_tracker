@@ -88,7 +88,7 @@ def clear_all_data() -> None:
     init_database()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("Initializing database...")
     init_database()
     print("Database initialized successfully.")
