@@ -6,13 +6,15 @@ authors = [
 description = "Finanze tracker app"
 dependencies = [
     "PyQt6",
-    "bokeh",
+    "bokeh>=3",
 ]
-requires-python = ">=3.11"
+requires-python = ">=3.9"
 license = { text = "MIT license" }
 dynamic = ["readme", "version"]
 classifiers = [
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
