@@ -26,4 +26,4 @@ jobs:
         run: echo "paths=src unittests" >> $GITHUB_ENV
       - name: Run linters
         run: |
-          ruff --check ${{ env.paths }}
+          ruff check ${{ env.paths }}
